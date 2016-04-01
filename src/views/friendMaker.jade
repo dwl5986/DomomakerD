@@ -1,0 +1,41 @@
+extends ./base.jade
+block append style
+    link(rel="stylesheet", type="text/css", href="/assets/style.css")
+block body
+  nav
+    a(href="/login")
+      img#logo(src="/assets/img/face.png", alt="face logo")
+    .navlink
+      a(href="/logout") Log out
+    .navlink
+      a(href="/maker") Domo Maker
+    .navlink
+      a(href="/friendmaker") Domo Friend Maker
+  section#makeDomo
+    form#domoForm(class="domoForm", name="friendDomoForm", action="/friendmaker", method="POST")
+      label(for="name") Name: 
+      input#domoName(type="text", name="name", placeholder="Domo Name")
+      label(for="friends") Friends: 
+      input#domoFriends(type="text", name="friends", placeholder="Number of Friends")
+      label(for="level") Level: 
+      input#domoBestFriend(type="text", name="bestFriend", placeholder="Best Friend")
+      input(type="hidden", name="_csrf", value="#{csrfToken}")
+      a#makeFriendDomoSubmit(class="makeDomoSubmit", href="#") Make Domo
+  section#domos
+    if !domos || domos.length == 0
+      div.domo
+        h3.emptyDomo No Domos yet
+    else
+      each val in domos
+        div.domo
+          img(class="domoFace", src="/assets/img/domoface.jpeg", alt="domoface")
+          h3.domoName Name: #{val.name}
+          h3.domoLevel Friends: #{val.friends}
+          h3.domoAge Best Friend: #{val.bestFriend}
+  #domoMessage
+    img#speech(src="/assets/img/speech.png", alt="speech box")
+    h3
+      span#errorMessage
+    img#domo(src="assets/img/domo.png", alt="domo")
+block scripts
+        script(src="/assets/maker.js")
